@@ -4,7 +4,7 @@ import "./decidersSize.css";
 
 const DecidersSize = (props: any) => {
   const sizeChangeHandler = (event: any) => {
-    console.log(event.target.value);
+    props.onChangeSize(event.target.value);
   };
 
   return (

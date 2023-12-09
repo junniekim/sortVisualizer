@@ -1,7 +1,7 @@
 // import React from "react";
 import "./visualizer.css";
 
-const Visualizer = () => {
+const Visualizer = (props: any) => {
   return <div>Visualizer</div>;
 };
 

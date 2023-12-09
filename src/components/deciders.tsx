@@ -9,6 +9,9 @@ const Deciders = (props: any) => {
   const [sortingMethod, setSortingMethod] = useState("bubble"); // bubble, selection, insertion, quick, merge, bogo
   const [sortingSize, setSortingSize] = useState(30); // 30 - 60
   const [sortingSpeed, setSortingSpeed] = useState(1); // 1 - 5
+  const buttonClicked = () => {
+    props.onChanges({ sortingMethod, sortingSize, sortingSpeed });
+  };
   const methodChangeHandler = (selectedMethod: any) => {
     setSortingMethod(selectedMethod);
     console.log(selectedMethod);
@@ -35,7 +38,10 @@ const Deciders = (props: any) => {
         selected={sortingSpeed}
         onChangeSpeed={speedChangeHandler}
       ></DecidersSpeed>
-      <button className="w-full sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4">
+      <button
+        onClick={buttonClicked}
+        className="w-full sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4"
+      >
         Start
         {/* and reset */}
       </button>

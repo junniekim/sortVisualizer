@@ -5,11 +5,16 @@ import Analyzer from "./components/analyzer";
 import Visualizer from "./components/visualizer";
 
 function App() {
+  const [visualizingFactors, setVisualizingFactors] = useState();
+  const factorChangeHandler = (selectedFactors: any) => {
+    setVisualizingFactors(selectedFactors);
+    console.log(selectedFactors);
+  };
   return (
     <>
       <h2>Sort Visualizer</h2>
-      <Deciders></Deciders>
-      <Visualizer></Visualizer>
+      <Deciders onChanges={factorChangeHandler}></Deciders>
+      <Visualizer factors={visualizingFactors}></Visualizer>
       <Analyzer></Analyzer>
     </>
   );

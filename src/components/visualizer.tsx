@@ -1,7 +1,22 @@
 // import React from "react";
 import "./visualizer.css";
 
-const bubbleSort = (arr: number[], speed: number): any => {
+//time out between switching visualization
+const timer = (wait: number) => new Promise((res) => setTimeout(res, wait));
+
+//bubble sort
+async function bubbleSort(arr: number[], speed: number) {
+  let wait =
+    speed == 1
+      ? 1000
+      : speed == 2
+      ? 800
+      : speed == 3
+      ? 600
+      : speed == 4
+      ? 400
+      : 200;
+
   const len = arr.length;
   for (let i = 0; i < len - 1; i++) {
     for (let j = 0; j < len - i - 1; j++) {
@@ -9,17 +24,13 @@ const bubbleSort = (arr: number[], speed: number): any => {
         let temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
-        arr.map((index) => (
-          <div>
-            <div>Mapping</div>
-            <h2>Mapping2 </h2>
-          </div>
-        ));
+        console.log(arr);
+        await timer(wait);
       }
     }
   }
   return arr;
-};
+}
 
 const Visualizer = (props: any) => {
   //generate shufffled array for a given size

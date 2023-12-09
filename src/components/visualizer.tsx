@@ -9,6 +9,12 @@ const bubbleSort = (arr: number[], speed: number): any => {
         let temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
+        arr.map((index) => (
+          <div>
+            <div>Mapping</div>
+            <h2>Mapping2 </h2>
+          </div>
+        ));
       }
     }
   }

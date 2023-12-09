@@ -7,7 +7,7 @@ import DecidersSpeed from "./decidersSpeed";
 
 const Deciders = (props: any) => {
   const [sortingMethod, setSortingMethod] = useState("bubble"); // bubble, selection, insertion, quick, merge, bogo
-  const [sortingSize, setSortingSize] = useState(30); // 30 - 60
+  const [sortingSize, setSortingSize] = useState(5); // 30 - 60
   const [sortingSpeed, setSortingSpeed] = useState(1); // 1 - 5
   const buttonClicked = () => {
     props.onChanges({ sortingMethod, sortingSize, sortingSpeed });

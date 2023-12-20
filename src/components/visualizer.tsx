@@ -1,32 +1,8 @@
-// import React from "react";
+import { useState, useEffect, useRef } from "react";
 import "./visualizer.css";
 
-//time out between switching visualization
-const timer = (wait: number) => new Promise((res) => setTimeout(res, wait));
-
-//bubble sort
-function bubbleSort(arr: number[]) {
-  let arrOfArr: Array<Array<number>> = [];
-
-  const len = arr.length;
-  for (let i = 0; i < len - 1; i++) {
-    for (let j = 0; j < len - i - 1; j++) {
-      if (arr[j] > arr[j + 1]) {
-        let temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
-        const newArr = arr.slice();
-        arrOfArr.push(newArr);
-      }
-    }
-  }
-  return arrOfArr;
-}
-//snapshot of each stage in an array, and return
-// show one snapshot at a time
-
 const Visualizer = (props: any) => {
-  //generate shufffled array for a given size
+  //initially set to 1000 as initial speed is 1
   let speed = props?.factors?.sortingSpeed;
   let wait =
     speed == 1
@@ -38,25 +14,54 @@ const Visualizer = (props: any) => {
       : speed == 4
       ? 400
       : 200;
-  let snapshots: Array<Array<number>> = [];
-  let givenArray: Array<number> = [];
-  if (props.factors) {
-    for (let i = 0; i < props.factors.sortingSize; i++) {
-      givenArray.push(i + 1);
-    }
-    givenArray = givenArray.sort(() => Math.random() - 0.5);
-    console.log("Pre-Sorting: " + givenArray);
 
-    //bubble
-    if (props.factors.sortingMethod == "bubble") {
-      snapshots = bubbleSort(givenArray);
-      console.log(snapshots);
+  const cancelSorting = useRef(false);
+  const [array, setArray] = useState(props.factors.sortingArray);
+  //when sorting array changes, needs to update, when factors change, need to restart
+
+  //when sorting array changes from the parent, cancel the ongoing sorting, and set the array to a new one.
+  useEffect(() => {
+    cancelSorting.current = true;
+    setArray(props.factors.sortingArray);
+    cancelSorting.current = false;
+    bubbleSort();
+  }, [props.factors]);
+
+  //when array starts sorting, refresh everytime something swaps.
+  useEffect(() => {
+    cancelSorting.current = false;
+  }, [array]);
+  const bubbleSort = async () => {
+    console.log("START");
+    let tempArray: number[] = [...array];
+
+    for (let i = 0; i < tempArray.length - 1; i++) {
+      for (let j = 0; j < tempArray.length - i - 1; j++) {
+        if (cancelSorting.current) {
+          return; // Exit the sorting if cancel flag is true
+        }
+        if (tempArray[j] > tempArray[j + 1]) {
+          console.log("swap");
+          [tempArray[j], tempArray[j + 1]] = [tempArray[j + 1], tempArray[j]];
+          await new Promise<void>((resolve) =>
+            setTimeout(() => {
+              setArray([...tempArray]);
+              resolve();
+            }, wait)
+          );
+        }
+      }
     }
-  }
-  //at this point we have a snapshot of each stage, speed
-  for (let i = 0; i < props.factors?.sortingSize; i++) {
-    return snapshots[i].map((stage) => <div key={Math.random()}>{stage}</div>);
-  }
+    console.log("DONE");
+  };
+
+  return (
+    <div>
+      {array?.map((value: any, index: any) => (
+        <div key={index}>{value}</div>
+      ))}
+    </div>
+  );
 };
 
 export default Visualizer;

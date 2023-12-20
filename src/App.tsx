@@ -5,11 +5,17 @@ import Analyzer from "./components/analyzer";
 import Visualizer from "./components/visualizer";
 
 function App() {
-  const [visualizingFactors, setVisualizingFactors] = useState();
+  //initial value to be passed into visualizer before decider passes something
+  const [visualizingFactors, setVisualizingFactors] = useState({
+    sortingMethod: "bubble",
+    sortingSpeed: 1,
+    sortingSize: 20,
+    sortingArray: [0],
+  });
   const factorChangeHandler = (selectedFactors: any) => {
     setVisualizingFactors(selectedFactors);
-    console.log(selectedFactors);
   };
+
   return (
     <>
       <h2>Sort Visualizer</h2>

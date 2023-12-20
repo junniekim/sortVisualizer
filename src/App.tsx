@@ -12,6 +12,7 @@ function App() {
     sortingSize: 20,
     sortingArray: [0],
   });
+
   const factorChangeHandler = (selectedFactors: any) => {
     setVisualizingFactors(selectedFactors);
   };

@@ -10,6 +10,7 @@ const Deciders = (props: any) => {
   const [sortingSize, setSortingSize] = useState(20); // 20 - 50
   const [sortingSpeed, setSortingSpeed] = useState(1); // 1 - 5
   const [sortingArray, setSortingArray] = useState([0]); //initially [0]
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   //when sorting array is updated, which means start button is clicked
   useEffect(() => {
     // Ensure sortingArray is not in its initial state, which is just [0]
@@ -25,6 +26,8 @@ const Deciders = (props: any) => {
 
   //start button
   const buttonClicked = () => {
+    setIsButtonDisabled(true); // Disable the button
+    setTimeout(() => setIsButtonDisabled(false), 5000); // Re-enable after 1 second
     let tempArray: Array<number> = [];
     for (let i = 0; i < sortingSize; i++) {
       tempArray.push(i + 1);
@@ -57,10 +60,10 @@ const Deciders = (props: any) => {
       ></DecidersSpeed>
       <button
         onClick={buttonClicked}
+        disabled={isButtonDisabled}
         className="w-full sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4"
       >
         Start
-        {/* and reset */}
       </button>
     </div>
   );

@@ -20,10 +20,10 @@ const Visualizer = (props: any) => {
       : 200;
 
   //sorting algorithm
-  const bubbleSort = async () => {
+  const bubbleSort = async (paramArray: any) => {
     console.log("START");
     console.log(array);
-    let tempArray: number[] = [...array];
+    let tempArray: number[] = [...paramArray];
     for (let i = 0; i < tempArray.length - 1; i++) {
       for (let j = 0; j < tempArray.length - i - 1; j++) {
         if (cancelSorting.current) {
@@ -46,14 +46,14 @@ const Visualizer = (props: any) => {
   };
   //when sorting array changes from the parent, cancel the ongoing sorting, and set the array to a new one.
   useEffect(() => {
-    // cancelSorting.current = true;
+    //cancelSorting.current = true;
+    bubbleSort(props.factors.sortingArray);
     setArray(props.factors.sortingArray);
   }, [props.factors]);
   //when array starts sorting, refresh everytime something swaps.
   useEffect(() => {
     cancelSorting.current = false;
   }, [array]);
-  bubbleSort();
 
   return (
     <div

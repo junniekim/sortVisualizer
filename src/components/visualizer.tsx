@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import "./visualizer.css";
 
+//triggered upon clicking on start button
 const Visualizer = (props: any) => {
+  //initially, canceling sort is false, and the given array is [0]
+  const cancelSorting = useRef(false);
+  const [array, setArray] = useState(props.factors.sortingArray);
   //initially set to 1000 as initial speed is 1
   let speed = props?.factors?.sortingSpeed;
   let wait =
@@ -15,30 +19,16 @@ const Visualizer = (props: any) => {
       ? 400
       : 200;
 
-  const cancelSorting = useRef(false);
-  const [array, setArray] = useState(props.factors.sortingArray);
-  //when sorting array changes, needs to update, when factors change, need to restart
-
-  //when sorting array changes from the parent, cancel the ongoing sorting, and set the array to a new one.
-  useEffect(() => {
-    cancelSorting.current = true;
-    setArray(props.factors.sortingArray);
-    cancelSorting.current = false;
-    bubbleSort();
-  }, [props.factors]);
-
-  //when array starts sorting, refresh everytime something swaps.
-  useEffect(() => {
-    cancelSorting.current = false;
-  }, [array]);
+  //sorting algorithm
   const bubbleSort = async () => {
     console.log("START");
+    console.log(array);
     let tempArray: number[] = [...array];
-
     for (let i = 0; i < tempArray.length - 1; i++) {
       for (let j = 0; j < tempArray.length - i - 1; j++) {
         if (cancelSorting.current) {
-          return; // Exit the sorting if cancel flag is true
+          console.log("exit");
+          return;
         }
         if (tempArray[j] > tempArray[j + 1]) {
           console.log("swap");
@@ -54,11 +44,41 @@ const Visualizer = (props: any) => {
     }
     console.log("DONE");
   };
+  //when sorting array changes from the parent, cancel the ongoing sorting, and set the array to a new one.
+  useEffect(() => {
+    // cancelSorting.current = true;
+    setArray(props.factors.sortingArray);
+  }, [props.factors]);
+  //when array starts sorting, refresh everytime something swaps.
+  useEffect(() => {
+    cancelSorting.current = false;
+  }, [array]);
+  bubbleSort();
 
   return (
-    <div>
-      {array?.map((value: any, index: any) => (
-        <div key={index}>{value}</div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "end",
+        height: "300px",
+        gap: "3px",
+      }}
+    >
+      {array.map((value: any, index: any) => (
+        <div
+          key={index}
+          style={{
+            width: "20px",
+            height: `${value * 5}px`,
+            backgroundColor: "blue",
+            display: "flex",
+            alignItems: "end",
+            justifyContent: "center",
+            color: "white",
+          }}
+        >
+          {value}
+        </div>
       ))}
     </div>
   );

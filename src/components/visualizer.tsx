@@ -5,6 +5,8 @@ import "./visualizer.css";
 const Visualizer = (props: any) => {
   //initially, canceling sort is false, and the given array is [0]
   const cancelSorting = useRef(false);
+  let count = 0;
+
   const [array, setArray] = useState(props.factors.sortingArray);
   //initially set to 1000 as initial speed is 1
   let speed = props?.factors?.sortingSpeed;
@@ -21,17 +23,16 @@ const Visualizer = (props: any) => {
 
   //bubble algorithm
   const bubbleSort = async (paramArray: any) => {
-    console.log("START");
-    console.log(array);
+    props.compare(true);
+    let startTime = Date.now();
     let tempArray: number[] = [...paramArray];
     for (let i = 0; i < tempArray.length - 1; i++) {
       for (let j = 0; j < tempArray.length - i - 1; j++) {
         if (cancelSorting.current) {
-          console.log("exit");
           return;
         }
         if (tempArray[j] > tempArray[j + 1]) {
-          console.log("swap");
+          count = count + 1;
           [tempArray[j], tempArray[j + 1]] = [tempArray[j + 1], tempArray[j]];
           await new Promise<void>((resolve) =>
             setTimeout(() => {
@@ -42,7 +43,10 @@ const Visualizer = (props: any) => {
         }
       }
     }
-    console.log("DONE");
+    let endTime = Date.now(); // End time
+    let duration = (endTime - startTime) / 1000;
+    props.onChanges({ count, duration });
+    props.compare(false);
   };
   //bogo algorithm
   const isSorted = (array: any[]) => {
@@ -62,14 +66,15 @@ const Visualizer = (props: any) => {
   };
 
   const bogoSort = async (paramArray: any[]) => {
-    console.log("START");
+    let startTime = Date.now();
+    props.compare(true);
     let tempArray = [...paramArray];
     while (!isSorted(tempArray)) {
       if (cancelSorting.current) {
-        console.log("exit");
         return;
       }
       shuffleArray(tempArray);
+      count = count + tempArray.length;
       await new Promise<void>((resolve) =>
         setTimeout(() => {
           setArray([...tempArray]);
@@ -77,18 +82,21 @@ const Visualizer = (props: any) => {
         }, wait)
       );
     }
-    console.log("DONE");
+    let endTime = Date.now(); // End time
+    let duration = (endTime - startTime) / 1000;
+    props.onChanges({ count, duration });
+    props.compare(false);
   };
 
   //selection sort
   const selectionSort = async (paramArray: any) => {
-    console.log("START");
+    let startTime = Date.now();
+    props.compare(true);
     let tempArray: number[] = [...paramArray];
     for (let i = 0; i < tempArray.length - 1; i++) {
       let minIndex = i;
       for (let j = i + 1; j < tempArray.length; j++) {
         if (cancelSorting.current) {
-          console.log("exit");
           return;
         }
         if (tempArray[j] < tempArray[minIndex]) {
@@ -96,7 +104,7 @@ const Visualizer = (props: any) => {
         }
       }
       if (minIndex !== i) {
-        console.log("swap");
+        count = count + 1;
         [tempArray[i], tempArray[minIndex]] = [
           tempArray[minIndex],
           tempArray[i],
@@ -109,7 +117,10 @@ const Visualizer = (props: any) => {
         );
       }
     }
-    console.log("DONE");
+    let endTime = Date.now(); // End time
+    let duration = (endTime - startTime) / 1000;
+    props.onChanges({ count, duration });
+    props.compare(false);
   };
 
   //quick
@@ -130,10 +141,10 @@ const Visualizer = (props: any) => {
     let pivotIndex = start;
     for (let i = start; i < end; i++) {
       if (cancelSorting.current) {
-        console.log("exit");
         return;
       }
       if (array[i] < pivotValue) {
+        count = count + 1;
         [array[i], array[pivotIndex]] = [array[pivotIndex], array[i]];
         pivotIndex++;
         await new Promise<void>((resolve) =>
@@ -157,13 +168,18 @@ const Visualizer = (props: any) => {
     return pivotIndex;
   };
   const startQuickSort = async (paramArray: any[]) => {
-    console.log("START");
+    let startTime = Date.now();
+    props.compare(true);
     await quickSort([...paramArray], 0, paramArray.length - 1);
-    console.log("DONE");
+    let endTime = Date.now(); // End time
+    let duration = (endTime - startTime) / 1000;
+    props.onChanges({ count, duration });
+    props.compare(false);
   };
   //insertion sort
   const insertionSort = async (paramArray: any) => {
-    console.log("START");
+    let startTime = Date.now();
+    props.compare(true);
     let tempArray: number[] = [...paramArray];
     for (let i = 1; i < tempArray.length; i++) {
       let key = tempArray[i];
@@ -172,13 +188,13 @@ const Visualizer = (props: any) => {
       // Move elements of tempArray[0..i-1], that are greater than key, to one position ahead of their current position
       while (j >= 0 && tempArray[j] > key) {
         if (cancelSorting.current) {
-          console.log("exit");
           return;
         }
 
         tempArray[j + 1] = tempArray[j];
         j = j - 1;
         tempArray[j + 1] = key;
+        count = count + 1;
         // Update the array state and wait for 1 second
         await new Promise<void>((resolve) =>
           setTimeout(() => {
@@ -196,7 +212,10 @@ const Visualizer = (props: any) => {
         }, wait)
       );
     }
-    console.log("DONE");
+    let endTime = Date.now(); // End time
+    let duration = (endTime - startTime) / 1000;
+    props.onChanges({ count, duration });
+    props.compare(false);
   };
 
   //merge
@@ -241,14 +260,15 @@ const Visualizer = (props: any) => {
     let k = start;
     while (i < n1 && j < n2) {
       if (cancelSorting.current) {
-        console.log("exit");
         return;
       }
       if (L[i] <= R[j]) {
         array[k] = L[i];
         i++;
+        count = count + 1;
       } else {
         array[k] = R[j];
+        count = count + 1;
         j++;
       }
       await new Promise<void>((resolve) =>
@@ -275,9 +295,13 @@ const Visualizer = (props: any) => {
     }
   };
   const startMergeSort = async (paramArray: any[]) => {
-    console.log("START");
+    let startTime = Date.now();
+    props.compare(true);
     await mergeSort([...paramArray], 0, paramArray.length - 1);
-    console.log("DONE");
+    let endTime = Date.now(); // End time
+    let duration = (endTime - startTime) / 1000;
+    props.onChanges({ count, duration });
+    props.compare(false);
   };
 
   //when sorting array changes from the parent, cancel the ongoing sorting, and set the array to a new one.

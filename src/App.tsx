@@ -12,17 +12,31 @@ function App() {
     sortingSize: 20,
     sortingArray: [0],
   });
-
+  const [analyzedResult, setAnalyzedResult] = useState({
+    comparisons: 0,
+    time: 0,
+  });
+  const [comparing, setComparing] = useState(false);
+  console.log(analyzedResult);
   const factorChangeHandler = (selectedFactors: any) => {
     setVisualizingFactors(selectedFactors);
   };
-
+  const analyzedChangeHandler = (endResult: any) => {
+    setAnalyzedResult(endResult);
+  };
+  const comparingChangeHandler = (comparing: any) => {
+    setComparing(comparing);
+  };
   return (
     <>
       <h2>Sort Visualizer</h2>
       <Deciders onChanges={factorChangeHandler}></Deciders>
-      <Visualizer factors={visualizingFactors}></Visualizer>
-      <Analyzer></Analyzer>
+      <Visualizer
+        onChanges={analyzedChangeHandler}
+        factors={visualizingFactors}
+        compare={comparingChangeHandler}
+      ></Visualizer>
+      <Analyzer result={analyzedResult} compare={comparing}></Analyzer>
     </>
   );
 }

@@ -6,20 +6,19 @@ const Visualizer = (props: any) => {
   //initially, canceling sort is false, and the given array is [0]
   const cancelSorting = useRef(false);
   let count = 0;
-
   const [array, setArray] = useState(props.factors.sortingArray);
   //initially set to 1000 as initial speed is 1
   let speed = props?.factors?.sortingSpeed;
   let wait =
     speed == 1
-      ? 1000
-      : speed == 2
-      ? 800
-      : speed == 3
       ? 600
-      : speed == 4
+      : speed == 2
       ? 400
-      : 200;
+      : speed == 3
+      ? 300
+      : speed == 4
+      ? 200
+      : 100;
 
   //bubble algorithm
   const bubbleSort = async (paramArray: any) => {
@@ -337,9 +336,10 @@ const Visualizer = (props: any) => {
         alignItems: "end",
         justifyContent: "center", // Centers the bars horizontally
         height: "300px",
-        backgroundColor: "white",
+        backgroundColor: "#333", // Dark background for the container
         gap: "3px",
         width: "100%", // Ensure the container takes full width
+        borderRadius: "15px",
       }}
     >
       {array.map((value: any, index: any) => (
@@ -347,8 +347,8 @@ const Visualizer = (props: any) => {
           key={index}
           style={{
             width: "20px",
-            height: `${value * 5}px`,
-            backgroundColor: "blue",
+            height: `${value * 5 + 20}px`,
+            backgroundColor: "#4f8edc", // Stylish blue for the bars
             display: "flex",
             alignItems: "end",
             justifyContent: "center",

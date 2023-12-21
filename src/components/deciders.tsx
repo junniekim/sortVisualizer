@@ -8,7 +8,7 @@ import DecidersSpeed from "./decidersSpeed";
 const Deciders = (props: any) => {
   const [sortingMethod, setSortingMethod] = useState("bubble"); // bubble, selection, insertion, quick, merge, bogo
   const [sortingSize, setSortingSize] = useState(20); // 20 - 50
-  const [sortingSpeed, setSortingSpeed] = useState(1); // 1 - 5
+  const [sortingSpeed, setSortingSpeed] = useState(5); // 1 - 5
   const [sortingArray, setSortingArray] = useState([0]); //initially [0]
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   //when sorting array is updated, which means start button is clicked
@@ -61,7 +61,7 @@ const Deciders = (props: any) => {
       <button
         onClick={buttonClicked}
         disabled={isButtonDisabled}
-        className="w-full sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4"
+        className="text-sm md:text-base lg:text-lg w-full sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4"
       >
         Start
       </button>

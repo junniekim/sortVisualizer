@@ -4,13 +4,14 @@ import Deciders from "./components/deciders";
 import Analyzer from "./components/analyzer";
 import Visualizer from "./components/visualizer";
 
+//styling + debugging merge sort + clean up code
 function App() {
   //initial value to be passed into visualizer before decider passes something
   const [visualizingFactors, setVisualizingFactors] = useState({
     sortingMethod: "bubble",
-    sortingSpeed: 1,
+    sortingSpeed: 5,
     sortingSize: 20,
-    sortingArray: [0],
+    sortingArray: [],
   });
   const [analyzedResult, setAnalyzedResult] = useState({
     comparisons: 0,
@@ -29,8 +30,12 @@ function App() {
   };
   return (
     <>
-      <h2>Sort Visualizer</h2>
+      <h2 className="text-4xl font-semibold text-white bg-gradient-to-r from-indigo-800 to-purple-900 p-4 rounded-md shadow-xl text-center">
+        Sort Visualizer
+      </h2>
+      <div className="mt-4"></div>
       <Deciders onChanges={factorChangeHandler}></Deciders>
+      <div className="mt-4"></div>
       <Visualizer
         onChanges={analyzedChangeHandler}
         factors={visualizingFactors}

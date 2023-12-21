@@ -8,9 +8,9 @@ const DecidersSpeed = (props: any) => {
   };
   return (
     <div className="w-full sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4">
-      <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      <h2 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         Set Speed (1-5)
-      </label>
+      </h2>
       <input
         defaultValue={props.selected}
         onChange={speedChangeHandler}

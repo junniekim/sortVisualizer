@@ -264,17 +264,30 @@ const Visualizer = (props: any) => {
       array[k] = L[i];
       i++;
       k++;
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          setArray([...array]);
+          resolve();
+        }, wait)
+      );
     }
     while (j < n2) {
       array[k] = R[j];
       j++;
       k++;
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          setArray([...array]);
+          resolve();
+        }, wait)
+      );
     }
   };
   const startMergeSort = async (paramArray: any[]) => {
     let startTime = Date.now();
     props.compare(true);
     await mergeSort([...paramArray], 0, paramArray.length - 1);
+
     let endTime = Date.now(); // End time
     let duration = (endTime - startTime) / 1000;
     props.onChanges({ count, duration });

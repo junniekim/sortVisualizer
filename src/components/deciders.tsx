@@ -26,8 +26,8 @@ const Deciders = (props: any) => {
 
   //start button
   const buttonClicked = () => {
-    setIsButtonDisabled(true); // Disable the button
-    setTimeout(() => setIsButtonDisabled(false), 5000); // Re-enable after 1 second
+    setIsButtonDisabled(true);
+    setTimeout(() => setIsButtonDisabled(false), 5000); // Re-enable after 5 second
     let tempArray: Array<number> = [];
     for (let i = 0; i < sortingSize; i++) {
       tempArray.push(i + 1);

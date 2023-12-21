@@ -7,7 +7,6 @@ const Visualizer = (props: any) => {
   const cancelSorting = useRef(false);
   let count = 0;
   const [array, setArray] = useState(props.factors.sortingArray);
-  //initially set to 1000 as initial speed is 1
   let speed = props?.factors?.sortingSpeed;
   let wait =
     speed == 1
@@ -18,7 +17,7 @@ const Visualizer = (props: any) => {
       ? 300
       : speed == 4
       ? 200
-      : 100;
+      : 50;
 
   //bubble algorithm
   const bubbleSort = async (paramArray: any) => {
@@ -154,8 +153,6 @@ const Visualizer = (props: any) => {
         );
       }
     }
-
-    // Swapping the pivot value to its correct position
     [array[pivotIndex], array[end]] = [array[end], array[pivotIndex]];
     await new Promise<void>((resolve) =>
       setTimeout(() => {
@@ -184,7 +181,6 @@ const Visualizer = (props: any) => {
       let key = tempArray[i];
       let j = i - 1;
 
-      // Move elements of tempArray[0..i-1], that are greater than key, to one position ahead of their current position
       while (j >= 0 && tempArray[j] > key) {
         if (cancelSorting.current) {
           return;
@@ -194,7 +190,6 @@ const Visualizer = (props: any) => {
         j = j - 1;
         tempArray[j + 1] = key;
         count = count + 1;
-        // Update the array state and wait for 1 second
         await new Promise<void>((resolve) =>
           setTimeout(() => {
             setArray([...tempArray]);
@@ -202,8 +197,6 @@ const Visualizer = (props: any) => {
           }, wait)
         );
       }
-
-      // Update the array state for the key insertion
       await new Promise<void>((resolve) =>
         setTimeout(() => {
           setArray([...tempArray]);
@@ -220,14 +213,9 @@ const Visualizer = (props: any) => {
   //merge
   const mergeSort = async (paramArray: any[], start: number, end: number) => {
     if (start < end) {
-      // Find the middle point
       let middle = Math.floor((start + end) / 2);
-
-      // Sort first and second halves
       await mergeSort(paramArray, start, middle);
       await mergeSort(paramArray, middle + 1, end);
-
-      // Merge the sorted halves
       await merge(paramArray, start, middle, end);
     }
   };
@@ -240,20 +228,14 @@ const Visualizer = (props: any) => {
   ) => {
     let n1 = middle - start + 1;
     let n2 = end - middle;
-
-    // Create temp arrays
     let L = new Array(n1);
     let R = new Array(n2);
-
-    // Copy data to temp arrays L[] and R[]
     for (let i = 0; i < n1; i++) {
       L[i] = array[start + i];
     }
     for (let j = 0; j < n2; j++) {
       R[j] = array[middle + 1 + j];
     }
-
-    // Merge the temp arrays back into array[start..end]
     let i = 0,
       j = 0;
     let k = start;
@@ -278,15 +260,11 @@ const Visualizer = (props: any) => {
       );
       k++;
     }
-
-    // Copy the remaining elements of L[], if there are any
     while (i < n1) {
       array[k] = L[i];
       i++;
       k++;
     }
-
-    // Copy the remaining elements of R[], if there are any
     while (j < n2) {
       array[k] = R[j];
       j++;
@@ -324,7 +302,6 @@ const Visualizer = (props: any) => {
     }, 1000);
   }, [props.factors]);
 
-  //when array starts sorting, refresh everytime something swaps.
   useEffect(() => {
     cancelSorting.current = false;
   }, [array]);
@@ -334,11 +311,11 @@ const Visualizer = (props: any) => {
       style={{
         display: "flex",
         alignItems: "end",
-        justifyContent: "center", // Centers the bars horizontally
+        justifyContent: "center",
         height: "300px",
-        backgroundColor: "#333", // Dark background for the container
+        backgroundColor: "#333",
         gap: "3px",
-        width: "100%", // Ensure the container takes full width
+        width: "100%",
         borderRadius: "15px",
       }}
     >
@@ -348,7 +325,7 @@ const Visualizer = (props: any) => {
           style={{
             width: "20px",
             height: `${value * 5 + 20}px`,
-            backgroundColor: "#4f8edc", // Stylish blue for the bars
+            backgroundColor: "#4f8edc",
             display: "flex",
             alignItems: "end",
             justifyContent: "center",

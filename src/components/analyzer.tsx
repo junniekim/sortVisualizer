@@ -2,7 +2,6 @@
 import "./analyzer.css";
 
 const Analyzer = (props: any) => {
-  console.log(props.result.count);
   return (
     <div className="flex flex-wrap">
       {props.compare == false ? (

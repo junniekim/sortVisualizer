@@ -16,7 +16,6 @@ function App() {
     time: 0,
   });
   const [comparing, setComparing] = useState(false);
-  console.log(analyzedResult);
   const factorChangeHandler = (selectedFactors: any) => {
     setVisualizingFactors(selectedFactors);
   };
